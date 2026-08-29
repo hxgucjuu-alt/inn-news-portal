@@ -6910,3 +6910,63 @@ body {
     font-size: 1.2rem !important;
   }
 }
+
+
+/* Mobile ticker stays a marquee; links remain tappable without turning the rail into a slider. */
+@media (hover: none), (pointer: coarse) {
+  .ticker-viewport {
+    overflow: hidden !important;
+    overscroll-behavior: auto;
+    scrollbar-width: none;
+    touch-action: auto;
+  }
+
+  .ticker-viewport::-webkit-scrollbar {
+    display: none;
+  }
+
+  .ticker-track {
+    animation: ticker-marquee 92s linear infinite !important;
+    transform: translate3d(0, 0, 0) !important;
+    will-change: transform;
+  }
+
+  .ticker-group[aria-hidden='true'] {
+    display: flex !important;
+  }
+
+  .ticker-section:active .ticker-track,
+  .ticker-section:focus-within .ticker-track,
+  .ticker-section:has(.ticker-item:active) .ticker-track {
+    animation-play-state: running !important;
+  }
+}
+
+@media (max-width: 760px) {
+  .nav-controls {
+    min-width: 0;
+    gap: 0.35rem;
+  }
+
+  .nav-search {
+    min-width: 0 !important;
+    flex: 1 1 auto;
+  }
+
+  .language-toggle {
+    display: inline-flex !important;
+    flex: 0 0 auto;
+    min-width: 2.7rem;
+    min-height: 2.15rem;
+    padding-inline: 0.5rem !important;
+    justify-content: center;
+  }
+
+  .language-toggle-code {
+    display: inline !important;
+  }
+
+  .language-toggle-copy {
+    display: none !important;
+  }
+}
