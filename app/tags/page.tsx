@@ -18,19 +18,19 @@ function TagsContent() {
   const [showAllTags, setShowAllTags] = useState(false);
 
   useEffect(() => {
-    let cancelled = false;
-    fetch('/api/articles')
+    const controller = new AbortController();
+    fetch('/api/articles', { signal: controller.signal })
       .then(response => response.json())
       .then(data => {
-        if (!cancelled) setArticles(data.articles || []);
+        if (!controller.signal.aborted) setArticles(data.articles || []);
       })
-      .catch(() => {
-        if (!cancelled) setArticles([]);
+      .catch(error => {
+        if (!controller.signal.aborted) setArticles([]);
       })
       .finally(() => {
-        if (!cancelled) setLoading(false);
+        if (!controller.signal.aborted) setLoading(false);
       });
-    return () => { cancelled = true; };
+    return () => controller.abort();
   }, []);
 
   const tagStats = useMemo(() => {

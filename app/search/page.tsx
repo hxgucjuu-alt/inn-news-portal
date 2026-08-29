@@ -24,10 +24,12 @@ function SearchContent() {
       return;
     }
 
+    const controller = new AbortController();
     setLoading(true);
-    fetch('/api/articles')
+    fetch('/api/articles', { signal: controller.signal })
       .then(res => res.json())
       .then(data => {
+        if (controller.signal.aborted) return;
         if (data.articles) {
           const q = query.toLowerCase();
           const filtered = data.articles.filter((article: Article) =>
@@ -42,8 +44,14 @@ function SearchContent() {
           setResults(filtered);
         }
       })
-      .catch(() => setResults([]))
-      .finally(() => setLoading(false));
+      .catch(error => {
+        if (!controller.signal.aborted) setResults([]);
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setLoading(false);
+      });
+
+    return () => controller.abort();
   }, [query]);
 
   return (

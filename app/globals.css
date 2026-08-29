@@ -6677,3 +6677,46 @@ body {
     transform: none !important;
   }
 }
+
+
+/* Device-friendly fallback: avoid expensive backdrop compositing on small or
+   motion-sensitive devices while preserving the same visual hierarchy. */
+@media (max-width: 760px), (prefers-reduced-motion: reduce) {
+  .ticker-section,
+  .news-card,
+  .article-shell,
+  .status-panel,
+  .tag-cloud-console,
+  .site-nav {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+
+  .news-card {
+    box-shadow: 0 6px 18px rgba(2, 8, 23, 0.22) !important;
+    transition: border-color 160ms ease, color 160ms ease !important;
+  }
+
+  .news-card [class*="blur-3xl"] {
+    display: none !important;
+  }
+
+  .home-shell .prime-headline-panel::after,
+  .opening-screen,
+  .opening-screen * {
+    animation: none !important;
+  }
+}
+
+/* Let supporting article cards yield layout/paint work until they approach
+   the viewport. Browsers without content-visibility simply ignore this rule. */
+[data-card="article"] {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 260px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+}

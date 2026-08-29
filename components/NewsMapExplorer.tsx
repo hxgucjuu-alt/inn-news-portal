@@ -177,6 +177,7 @@ export default function NewsMapExplorer({ articles, compact = false, home = fals
   const dragStart = useRef<{ x: number; y: number; viewport: Viewport } | null>(null);
   const mapSvgRef = useRef<SVGSVGElement | null>(null);
   const regionDetailsRef = useRef<HTMLElement | null>(null);
+  const scrollTimerRef = useRef<number | null>(null);
   const entries = useMemo(() => getArticleGeoEntries(articles), [articles]);
   const allRecentEntries = useMemo(() => entries.filter(({ article }) => isWithinLastSevenDays(article)), [entries]);
   const recentEntries = useMemo(
@@ -233,12 +234,20 @@ export default function NewsMapExplorer({ articles, compact = false, home = fals
     const svg = mapSvgRef.current;
     if (!svg) return;
 
-    const redraw = () => setViewport((current) => ({ ...current }));
-    const frame = window.requestAnimationFrame(redraw);
-    const observer = new ResizeObserver(() => window.requestAnimationFrame(redraw));
+    let frame = 0;
+    const redraw = () => {
+      frame = 0;
+      setViewport((current) => ({ ...current }));
+    };
+    const scheduleRedraw = () => {
+      if (frame) return;
+      frame = window.requestAnimationFrame(redraw);
+    };
+    scheduleRedraw();
+    const observer = new ResizeObserver(scheduleRedraw);
     observer.observe(svg);
     return () => {
-      window.cancelAnimationFrame(frame);
+      if (frame) window.cancelAnimationFrame(frame);
       observer.disconnect();
     };
   }, [geoJson]);
@@ -390,11 +399,19 @@ export default function NewsMapExplorer({ articles, compact = false, home = fals
     );
   };
 
+  useEffect(() => () => {
+    if (scrollTimerRef.current !== null) window.clearTimeout(scrollTimerRef.current);
+  }, []);
+
   const handleRegionPointClick = (regionKey: string) => {
     setIsDetailTopicMenuOpen(false);
     setSelectedRegionKey(regionKey);
+    if (scrollTimerRef.current !== null) window.clearTimeout(scrollTimerRef.current);
     window.requestAnimationFrame(() => {
-      window.setTimeout(() => regionDetailsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 120);
+      scrollTimerRef.current = window.setTimeout(() => {
+        scrollTimerRef.current = null;
+        regionDetailsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 120);
     });
   };
 
