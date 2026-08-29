@@ -4,6 +4,7 @@ import ArticleCard from '@/components/ArticleCard';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import LiveClock from '@/components/LiveClock';
+import TimeGreeting from '@/components/TimeGreeting';
 import BilingualText from '@/components/BilingualText';
 import { tagToEnglish } from '@/lib/i18n';
 
@@ -60,6 +61,10 @@ export default async function HomePage() {
       </section>
 
       <main className="content-shell max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12 space-y-12 lg:space-y-20">
+        <section className="home-greeting-row" aria-label="INN 時段問候">
+          <TimeGreeting />
+        </section>
+
         <section className="home-social-links home-social-links--classic" aria-label="INN 官方社群連結">
           <span><BilingualText zh="追蹤 INN 官方頻道" en="FOLLOW INN OFFICIAL CHANNELS" /></span>
           <a href="https://www.instagram.com/inn.crestylon/" target="_blank" rel="noopener noreferrer">Instagram <i aria-hidden="true">↗</i></a>

@@ -6720,3 +6720,47 @@ body {
     scroll-behavior: auto !important;
   }
 }
+
+
+.home-greeting-row {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.home-greeting {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  min-width: 0;
+  border-left: 2px solid rgba(34, 211, 238, 0.52);
+  padding: 0.35rem 0 0.35rem 0.75rem;
+}
+
+.home-greeting-label {
+  color: rgba(103, 232, 249, 0.52);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  white-space: nowrap;
+}
+
+.home-greeting strong {
+  min-width: 0;
+  color: rgba(226, 252, 255, 0.94);
+  font-family: var(--font-orbitron), ui-sans-serif, system-ui, sans-serif;
+  font-size: clamp(0.9rem, 1.8vw, 1.15rem);
+  letter-spacing: 0.06em;
+  line-height: 1.35;
+}
+
+@media (max-width: 560px) {
+  .home-greeting {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .home-greeting strong {
+    font-size: 0.95rem;
+  }
+}
