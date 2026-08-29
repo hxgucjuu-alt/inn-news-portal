@@ -6882,3 +6882,31 @@ body {
     gap: 1.5rem !important;
   }
 }
+
+
+.home-greeting-time--evening {
+  font-size: clamp(1.15rem, 2.6vw, 1.7rem) !important;
+  letter-spacing: 0.08em;
+}
+
+@media (max-width: 760px) and (prefers-reduced-motion: no-preference) {
+  .home-shell .ticker-track {
+    animation-name: ticker-marquee !important;
+    animation-duration: 92s !important;
+    animation-timing-function: linear !important;
+    animation-iteration-count: infinite !important;
+    animation-play-state: running !important;
+    will-change: transform;
+  }
+
+  .home-shell .ticker-section:active .ticker-track,
+  .home-shell .ticker-section:focus-within .ticker-track {
+    animation-play-state: running !important;
+  }
+}
+
+@media (max-width: 560px) {
+  .home-greeting-time--evening {
+    font-size: 1.2rem !important;
+  }
+}
