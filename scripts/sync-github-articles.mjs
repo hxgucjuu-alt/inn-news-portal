@@ -5,9 +5,9 @@ import { promisify } from 'node:util';
 import { execFile } from 'node:child_process';
 
 const execFileAsync = promisify(execFile);
-const owner = process.env.GITHUB_OWNER || 'hxgucjuu-alt';
-const repo = process.env.GITHUB_REPO || 'inn-news-portal';
-const branch = process.env.GITHUB_BRANCH || 'main';
+const owner = 'hxgucjuu-alt';
+const repo = 'inn-news-portal';
+const branch = 'main';
 const token = process.env.GITHUB_TOKEN || '';
 const projectRoot = process.cwd();
 const targetArticles = join(projectRoot, 'content', 'articles');
