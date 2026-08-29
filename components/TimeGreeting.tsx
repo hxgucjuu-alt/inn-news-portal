@@ -13,17 +13,12 @@ const DEFAULT_GREETING: Greeting = {
   en: 'GREETING SIGNAL ONLINE',
 };
 
-function getTaipeiHour(date: Date) {
-  const hour = new Intl.DateTimeFormat('en-US', {
-    timeZone: 'Asia/Taipei',
-    hour: 'numeric',
-    hourCycle: 'h23',
-  }).formatToParts(date).find((part) => part.type === 'hour')?.value;
-  return Number(hour || 0);
+function getLocalHour(date: Date) {
+  return date.getHours();
 }
 
 function getGreeting(date: Date): Greeting {
-  const hour = getTaipeiHour(date);
+  const hour = getLocalHour(date);
   if (hour < 5) return { zh: '凌晨好', en: 'GOOD EARLY MORNING' };
   if (hour < 12) return { zh: '早安', en: 'GOOD MORNING' };
   if (hour < 18) return { zh: '午安', en: 'GOOD AFTERNOON' };
