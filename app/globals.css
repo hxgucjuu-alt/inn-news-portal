@@ -6788,3 +6788,40 @@ body {
     max-width: 100%;
   }
 }
+
+
+/* Center the greeting stack so long bilingual lines stay balanced on every viewport. */
+.home-greeting-row {
+  justify-content: center;
+}
+
+.home-greeting {
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  border-left: 0;
+  border-top: 1px solid rgba(34, 211, 238, 0.24);
+  border-bottom: 1px solid rgba(34, 211, 238, 0.12);
+  padding: 0.75rem 1rem;
+  text-align: center;
+}
+
+.home-greeting-label,
+.home-greeting strong,
+.home-daily-greeting {
+  max-width: 100%;
+  text-align: center;
+}
+
+.home-daily-greeting {
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 560px) {
+  .home-greeting {
+    gap: 0.35rem;
+    padding-inline: 0.25rem;
+  }
+}
