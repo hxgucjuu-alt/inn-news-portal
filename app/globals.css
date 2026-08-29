@@ -6825,3 +6825,60 @@ body {
     padding-inline: 0.25rem;
   }
 }
+
+
+/* Compact editorial rhythm: reduce dead space while keeping clear section separation. */
+.home-shell .content-shell {
+  row-gap: 0;
+}
+
+.home-shell .content-shell > * + * {
+  margin-top: clamp(1.5rem, 3vw, 2.75rem) !important;
+}
+
+.home-shell .prime-headline-panel {
+  min-height: clamp(22rem, 38vw, 32rem) !important;
+}
+
+.home-shell .primary-layout {
+  gap: clamp(1.5rem, 3vw, 3rem) !important;
+}
+
+.home-shell .latest-section {
+  row-gap: 1.5rem;
+}
+
+.home-shell .latest-section > .grid {
+  row-gap: clamp(1.5rem, 3vw, 2.75rem) !important;
+}
+
+.home-shell section.bg-cyan-950\/10 {
+  padding: clamp(1.25rem, 3vw, 2.5rem) !important;
+}
+
+@media (min-width: 1440px) {
+  .home-shell .prime-headline-panel {
+    min-height: clamp(24rem, 34vw, 34rem) !important;
+  }
+}
+
+@media (min-width: 761px) and (max-width: 1439px) {
+  .home-shell .prime-headline-panel {
+    min-height: clamp(22rem, 42vw, 31rem) !important;
+  }
+}
+
+@media (max-width: 760px) {
+  .home-shell .content-shell {
+    padding-top: 1.25rem !important;
+    padding-bottom: 1.5rem !important;
+  }
+
+  .home-shell .content-shell > * + * {
+    margin-top: 1.35rem !important;
+  }
+
+  .home-shell .primary-layout {
+    gap: 1.5rem !important;
+  }
+}
