@@ -36,6 +36,7 @@ export default function Navbar() {
             <span className="nav-brand-subtitle nav-brand-subtitle-en">Stellar Federation News Network</span>
             <span className="nav-choice-tagline">空間及索引，把選擇權還給你</span>
           </Link>
+          <LanguageToggle />
           <Link href="/acknowledgements" className="nav-acknowledgements-link" aria-label={language === 'zh' ? '前往特別感謝' : 'Open acknowledgements'}>
             <span>{language === 'zh' ? '特別感謝' : 'ACKNOWLEDGEMENTS'}</span>
             <i aria-hidden="true">↗</i>
@@ -54,7 +55,6 @@ export default function Navbar() {
             />
             <button type="submit" aria-label={searchLabel}>{searchLabel}</button>
           </form>
-          <LanguageToggle />
           <button
             type="button"
             className="nav-menu-toggle"
