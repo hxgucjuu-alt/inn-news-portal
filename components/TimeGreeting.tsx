@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import BilingualText from './BilingualText';
+import { getDailyGreeting } from '@/lib/daily-greetings';
 
 type Greeting = {
   zh: string;
@@ -31,6 +32,7 @@ function millisecondsUntilNextHour(date: Date) {
 
 export default function TimeGreeting() {
   const [greeting, setGreeting] = useState<Greeting>(DEFAULT_GREETING);
+  const [dailyGreeting, setDailyGreeting] = useState(DEFAULT_GREETING);
 
   useEffect(() => {
     let timer: number | undefined;
@@ -40,6 +42,7 @@ export default function TimeGreeting() {
       if (cancelled) return;
       const now = new Date();
       setGreeting(getGreeting(now));
+      setDailyGreeting(getDailyGreeting(now));
       timer = window.setTimeout(refresh, millisecondsUntilNextHour(now));
     };
 
@@ -54,6 +57,7 @@ export default function TimeGreeting() {
     <div className="home-greeting" aria-live="polite">
       <span className="home-greeting-label">INN // TIME SIGNAL</span>
       <strong><BilingualText zh={greeting.zh} en={greeting.en} /></strong>
+      <span className="home-daily-greeting"><BilingualText zh={dailyGreeting.zh} en={dailyGreeting.en} /></span>
     </div>
   );
 }

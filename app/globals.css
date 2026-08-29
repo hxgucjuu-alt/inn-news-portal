@@ -6764,3 +6764,27 @@ body {
     font-size: 0.95rem;
   }
 }
+
+
+.home-daily-greeting {
+  min-width: 0;
+  max-width: min(44rem, 100%);
+  color: rgba(186, 230, 253, 0.72);
+  font-size: clamp(0.76rem, 1.35vw, 0.95rem);
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 760px) {
+  .home-greeting-row {
+    width: 100%;
+  }
+
+  .home-greeting {
+    width: 100%;
+  }
+
+  .home-daily-greeting {
+    max-width: 100%;
+  }
+}
