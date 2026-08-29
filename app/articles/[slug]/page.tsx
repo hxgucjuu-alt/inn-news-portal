@@ -6,6 +6,8 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import BilingualText, { BilingualMarkup } from '@/components/BilingualText';
 import FictionOpeningModal from '@/components/FictionOpeningModal';
+import ArticleGreeting from '@/components/ArticleGreeting';
+import { getArticleGreetings } from '@/lib/article-greetings';
 import { tagToEnglish } from '@/lib/i18n';
 
 interface ArticlePageProps {
@@ -41,6 +43,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
   const articleHtmlEn = renderMarkdown(article.contentEn || article.content);
   const hasSubstantiveBody = article.content.replace(/[\s#>*_`\-]/g, '').length >= 40;
   const isFictionOpening = article.contentType === 'fiction' && Boolean(article.fictionPopupHours && article.fictionPopupStartsAt);
+  const articleGreetings = getArticleGreetings(article.slug);
 
   return (
     <div className="article-page min-h-screen text-white flex flex-col font-sans selection:bg-cyan-500 selection:text-black">
@@ -96,7 +99,9 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
           </header>
 
           <article className="article-shell rounded-2xl border border-cyan-500/20 bg-[#121520]/80 backdrop-blur-xl px-5 py-7 sm:px-8 sm:py-10 lg:px-12 lg:py-12 shadow-[0_0_30px_rgba(0,191,255,0.05)]">
+            <ArticleGreeting greeting={articleGreetings.top} position="top" />
             <BilingualMarkup zhHtml={articleHtml} enHtml={articleHtmlEn} className="markdown-body" />
+            <ArticleGreeting greeting={articleGreetings.bottom} position="bottom" />
           </article>
 
           {article.sources.length > 0 && (

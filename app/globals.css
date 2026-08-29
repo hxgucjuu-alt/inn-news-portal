@@ -7033,3 +7033,51 @@ body {
     transition: none;
   }
 }
+
+
+.article-greeting {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+  max-width: 48rem;
+  margin-inline: auto;
+  padding: 0.85rem 1rem;
+  border: 1px solid rgba(103, 232, 249, 0.2);
+  border-radius: 0.75rem;
+  background: rgba(8, 47, 73, 0.2);
+  color: rgba(186, 230, 253, 0.78);
+  font-size: clamp(0.78rem, 1.4vw, 0.95rem);
+  line-height: 1.65;
+  overflow-wrap: anywhere;
+}
+
+.article-greeting + .bilingual-markup {
+  margin-top: clamp(1.25rem, 3vw, 2.25rem);
+}
+
+.article-greeting--bottom {
+  margin-top: clamp(1.5rem, 3vw, 2.75rem);
+  border-color: rgba(167, 139, 250, 0.2);
+  background: rgba(30, 27, 75, 0.18);
+}
+
+.article-greeting-mark {
+  flex: 0 0 auto;
+  color: rgb(103, 232, 249);
+  font-size: 0.8rem;
+  line-height: 1.7;
+}
+
+.article-greeting .bilingual-text {
+  min-width: 0;
+  width: 100%;
+  text-align: left;
+}
+
+@media (max-width: 560px) {
+  .article-greeting {
+    gap: 0.5rem;
+    padding: 0.7rem 0.75rem;
+    font-size: 0.78rem;
+  }
+}
