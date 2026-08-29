@@ -10,8 +10,8 @@ type Greeting = {
 };
 
 const DEFAULT_GREETING: Greeting = {
-  zh: '問候訊號已連線',
-  en: 'GREETING SIGNAL ONLINE',
+  zh: '歡迎',
+  en: 'WELCOME',
 };
 
 function getLocalHour(date: Date) {
