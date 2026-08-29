@@ -5,7 +5,6 @@ import { renderMarkdown } from '@/lib/markdown';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import BilingualText, { BilingualMarkup } from '@/components/BilingualText';
-import ArticleStellarField from '@/components/ArticleStellarField';
 import FictionOpeningModal from '@/components/FictionOpeningModal';
 import { tagToEnglish } from '@/lib/i18n';
 
@@ -45,7 +44,6 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
   return (
     <div className="article-page min-h-screen text-white flex flex-col font-sans selection:bg-cyan-500 selection:text-black">
-      <ArticleStellarField />
       {isFictionOpening && <FictionOpeningModal title={article.title} titleEn={article.titleEn} excerpt={article.excerpt || ''} excerptEn={article.excerptEn || ''} startsAt={article.fictionPopupStartsAt} hours={article.fictionPopupHours} hasSubstantiveBody={hasSubstantiveBody} />}
       <Navbar />
       <main className="article-page-main flex-grow w-full max-w-5xl mx-auto px-4 sm:px-6 py-6 sm:py-8 lg:py-10">

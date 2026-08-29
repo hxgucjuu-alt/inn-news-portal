@@ -5,7 +5,7 @@ import { promisify } from 'node:util';
 import { execFile } from 'node:child_process';
 
 const execFileAsync = promisify(execFile);
-const owner = process.env.GITHUB_OWNER || 'crestylonnews-ship-it';
+const owner = process.env.GITHUB_OWNER || 'hxgucjuu-alt';
 const repo = process.env.GITHUB_REPO || 'inn-news-portal';
 const branch = process.env.GITHUB_BRANCH || 'main';
 const token = process.env.GITHUB_TOKEN || '';

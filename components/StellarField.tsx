@@ -1,6 +1,6 @@
 'use client';
 
-const STAR_COUNT = 96;
+const STAR_COUNT = 24;
 
 export default function StellarField() {
   return (

@@ -6607,145 +6607,73 @@ body {
 }
 
 
-/* Article immersion layer: the stars move with a restrained scroll-parallax
-   while the article surface and controls remain completely stable. */
-.article-page {
-  isolation: isolate;
-  overflow-x: clip;
-}
-
-.article-stellar-field {
-  position: fixed;
-  z-index: 0;
-  inset: 0;
-  overflow: hidden;
-  pointer-events: none;
+/* Low-complexity performance pass: keep a quiet starfield without per-frame
+   background animation, blur filters, or blend-mode compositing. */
+.stellar-field {
   contain: paint;
+  isolation: isolate;
+  opacity: 0.74;
+  background: #04070d !important;
 }
 
-.article-stellar-layer {
-  position: absolute;
-  inset: -12%;
-  overflow: hidden;
-  will-change: transform;
-  transform-origin: center center;
-}
-
-.article-stellar-layer::before,
-.article-stellar-layer::after {
-  position: absolute;
-  inset: 0;
-  content: '';
-  pointer-events: none;
-}
-
-.article-stellar-layer::before {
-  background:
-    radial-gradient(ellipse at 17% 24%, rgba(34, 211, 238, 0.14), transparent 28%),
-    radial-gradient(ellipse at 78% 19%, rgba(139, 92, 246, 0.12), transparent 26%),
-    radial-gradient(ellipse at 82% 76%, rgba(14, 116, 144, 0.1), transparent 32%),
-    radial-gradient(ellipse at 23% 86%, rgba(76, 29, 149, 0.09), transparent 30%);
-  filter: blur(18px);
-}
-
-.article-stellar-layer::after {
+.stellar-field::before,
+.stellar-field::after {
+  animation: none !important;
+  opacity: 0.42 !important;
+  filter: none !important;
   background-image:
-    radial-gradient(circle at 7% 11%, rgba(186, 230, 253, 0.66) 0 1px, transparent 1.9px),
-    radial-gradient(circle at 16% 67%, rgba(103, 232, 249, 0.5) 0 0.8px, transparent 1.8px),
-    radial-gradient(circle at 31% 38%, rgba(221, 214, 254, 0.58) 0 0.9px, transparent 2px),
-    radial-gradient(circle at 47% 18%, rgba(255, 255, 255, 0.46) 0 0.8px, transparent 1.8px),
-    radial-gradient(circle at 59% 83%, rgba(103, 232, 249, 0.54) 0 0.9px, transparent 2px),
-    radial-gradient(circle at 74% 45%, rgba(221, 214, 254, 0.5) 0 0.8px, transparent 1.8px),
-    radial-gradient(circle at 88% 73%, rgba(186, 230, 253, 0.62) 0 1px, transparent 2px),
-    linear-gradient(115deg, transparent 0 36%, rgba(103, 232, 249, 0.05) 48%, transparent 60%);
-  background-size: auto, auto, auto, auto, auto, auto, auto, 260% 260%;
-  opacity: 0.72;
-  animation: article-dust-drift 32s linear infinite;
+    radial-gradient(circle at 13% 19%, rgba(165, 243, 252, 0.55) 0 0.8px, transparent 1.6px),
+    radial-gradient(circle at 29% 71%, rgba(196, 181, 253, 0.48) 0 0.75px, transparent 1.6px),
+    radial-gradient(circle at 52% 28%, rgba(103, 232, 249, 0.45) 0 0.75px, transparent 1.6px),
+    radial-gradient(circle at 77% 62%, rgba(221, 214, 254, 0.44) 0 0.8px, transparent 1.7px),
+    radial-gradient(circle at 91% 14%, rgba(186, 230, 253, 0.42) 0 0.7px, transparent 1.5px) !important;
+  background-size: auto !important;
 }
 
-.article-stellar-layer--far {
-  opacity: 0.8;
-  transform: translate3d(0, var(--article-stellar-y-far, 0px), 0) scale(1.04);
+.stellar-star {
+  will-change: auto !important;
+  mix-blend-mode: normal !important;
+  animation: none !important;
+  box-shadow: 0 0 5px 1px rgba(103, 232, 249, 0.22) !important;
+  opacity: 0.44 !important;
 }
 
-.article-stellar-layer--near {
-  opacity: 0.94;
-  transform: translate3d(0, var(--article-stellar-y, 0px), 0) scale(1.08);
+.stellar-star:nth-of-type(3n),
+.stellar-star:nth-of-type(5n),
+.stellar-star:nth-of-type(11n) {
+  width: 2px !important;
+  height: 2px !important;
+  opacity: 0.52 !important;
+  box-shadow: 0 0 6px 1px rgba(165, 243, 252, 0.24) !important;
 }
 
-.article-star {
-  position: absolute;
-  display: block;
-  width: 2px;
-  height: 2px;
-  border-radius: 999px;
-  background: rgba(186, 230, 253, 0.88);
-  box-shadow: 0 0 9px 2px rgba(103, 232, 249, 0.42);
-  animation: article-star-twinkle 5.5s ease-in-out infinite;
+.stellar-nebula {
+  display: none !important;
 }
 
-.article-star--far {
-  opacity: 0.56;
-  transform: scale(0.72);
+.site-shell::before,
+.site-shell::after {
+  box-shadow: none !important;
 }
 
-.article-star--near {
-  width: 3px;
-  height: 3px;
-  background: rgba(221, 214, 254, 0.94);
-  box-shadow: 0 0 15px 3px rgba(167, 139, 250, 0.42);
-  animation-duration: 6.8s;
-}
-
-.article-star:nth-child(4n) {
-  background: rgba(207, 250, 254, 0.96);
-  box-shadow: 0 0 13px 3px rgba(34, 211, 238, 0.48);
-}
-
-.article-star:nth-child(7n) {
-  width: 4px;
-  height: 4px;
-  box-shadow: 0 0 17px 4px rgba(165, 243, 252, 0.48);
-}
-
-.article-page > .site-nav,
-.article-page > .article-page-main,
-.article-page > footer {
-  position: relative;
-  z-index: 2;
-}
-
-.article-page::before {
-  z-index: 1 !important;
-  pointer-events: none;
-}
-
-@keyframes article-star-twinkle {
-  0%, 100% { opacity: 0.28; }
-  42% { opacity: 0.88; }
-  62% { opacity: 0.5; }
-}
-
-@keyframes article-dust-drift {
-  from { background-position: 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, -80% 0; }
-  to { background-position: 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 80% 0; }
+.home-shell .prime-headline-panel::after {
+  animation: none !important;
+  opacity: 0.22 !important;
 }
 
 @media (max-width: 760px) {
-  .article-stellar-layer { inset: -8%; }
-  .article-stellar-layer--near { opacity: 0.78; }
-  .article-stellar-layer--far { opacity: 0.64; }
-  .article-star--near { width: 2.5px; height: 2.5px; }
+  .stellar-field { opacity: 0.6; }
+  .stellar-field::before,
+  .stellar-field::after { opacity: 0.3 !important; }
+  .stellar-star { opacity: 0.36 !important; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .article-stellar-layer--far,
-  .article-stellar-layer--near {
-    transform: none !important;
-  }
-
-  .article-stellar-layer::after,
-  .article-star {
+  .stellar-field,
+  .stellar-field::before,
+  .stellar-field::after,
+  .stellar-star {
     animation: none !important;
+    transform: none !important;
   }
 }

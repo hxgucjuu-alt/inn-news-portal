@@ -4,12 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "prebuild": "node scripts/verify-local-articles.mjs",
+    "prebuild": "node scripts/sync-github-articles.mjs",
     "build": "rm -rf .next out && next build",
     "start": "next start",
     "lint": "next lint",
-    "test:bilingual": "rm -rf .test-bilingual && tsc --target ES2022 --module commonjs --moduleResolution node --esModuleInterop --jsx react-jsx --skipLibCheck --outDir .test-bilingual tests/inn-bilingual-regression.ts components/BilingualText.tsx lib/posts.ts lib/markdown.ts lib/types.ts && node .test-bilingual/tests/inn-bilingual-regression.js && rm -rf .test-bilingual",
-    "deploy": "wrangler deploy"
+    "test:bilingual": "rm -rf .test-bilingual && tsc --target ES2022 --module commonjs --moduleResolution node --esModuleInterop --jsx react-jsx --skipLibCheck --outDir .test-bilingual tests/inn-bilingual-regression.ts components/BilingualText.tsx lib/posts.ts lib/markdown.ts lib/types.ts && node .test-bilingual/tests/inn-bilingual-regression.js && rm -rf .test-bilingual"
   },
   "dependencies": {
     "gray-matter": "^4.0.3",
@@ -25,7 +24,6 @@
     "autoprefixer": "^10.4.18",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5",
-    "wrangler": "4.127.0"
+    "typescript": "^5"
   }
 }
