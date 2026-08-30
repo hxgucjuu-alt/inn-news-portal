@@ -5346,7 +5346,6 @@ html[data-language='zh'] .prime-headline-title .bilingual-language-en {
 
   .ticker-track {
     animation: none !important;
-    transform: none !important;
   }
 
   .ticker-group[aria-hidden='true'] {
