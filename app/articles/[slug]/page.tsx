@@ -14,6 +14,17 @@ interface ArticlePageProps {
   params: { slug: string };
 }
 
+// The page header already renders the title, and most article bodies start
+// with the same title as an H1. Drop that leading H1 only when its plain
+// text matches the header title exactly; anything else is left untouched,
+// so a genuine opening section heading is never deleted by accident.
+function stripLeadingTitle(html: string, title: string) {
+  const clean = (value: string) => value.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+  return html.replace(/^\s*<h1[^>]*>[\s\S]*?<\/h1>\s*/i, (match) =>
+    clean(match) === clean(title) ? '' : match,
+  );
+}
+
 // Cloudflare Pages 無伺服器動態路由；所有已提交文章都需在建置時生成。
 export async function generateStaticParams() {
   const slugs = await getAllArticleSlugs();
@@ -39,8 +50,11 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     review: 'TECH FRONTIER' 
   };
 
-  const articleHtml = renderMarkdown(article.content);
-  const articleHtmlEn = renderMarkdown(article.contentEn || article.content);
+  const articleHtml = stripLeadingTitle(renderMarkdown(article.content), article.title);
+  const articleHtmlEn = stripLeadingTitle(
+    renderMarkdown(article.contentEn || article.content),
+    article.titleEn,
+  );
   const hasSubstantiveBody = article.content.replace(/[\s#>*_`\-]/g, '').length >= 40;
   const isFictionOpening = article.contentType === 'fiction' && Boolean(article.fictionPopupHours && article.fictionPopupStartsAt);
   const articleGreetings = getArticleGreetings(article.slug);
@@ -85,24 +99,35 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
               <span className="article-author-language article-author-en" lang="en"><i>CORRESPONDENT</i><b>{article.authorEn || article.author}</b></span>
             </div>
 
-            {article.tags.length > 0 && <div className="article-tag-list" aria-label="文章標籤">
-              {article.tags.map(tag => (
-                <Link
-                  key={tag}
-                  href={`/tags?tag=${encodeURIComponent(tag)}`}
-                  className="article-tag-link"
-                >
-                  <BilingualText zh={`#${tag}`} en={`#${tagToEnglish(tag)}`} />
-                </Link>
-              ))}
-            </div>}
           </header>
+
+          <div className="flex justify-start">
+            <Link href="/" className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-white/10 text-sm text-gray-300 hover:border-cyan-400/50 hover:text-cyan-300 transition-all">
+              <span aria-hidden="true">←</span>
+              <BilingualText zh="返回星際首頁" en="RETURN TO HOME TERMINAL" />
+            </Link>
+          </div>
 
           <article className="article-shell rounded-2xl border border-cyan-500/20 bg-[#121520]/80 backdrop-blur-xl px-5 py-7 sm:px-8 sm:py-10 lg:px-12 lg:py-12 shadow-[0_0_30px_rgba(0,191,255,0.05)]">
             <ArticleGreeting greeting={articleGreetings.top} position="top" />
             <BilingualMarkup zhHtml={articleHtml} enHtml={articleHtmlEn} className="markdown-body" />
             <ArticleGreeting greeting={articleGreetings.bottom} position="bottom" />
           </article>
+
+          {/* Tags used to sit between the header and the body and push the
+              first paragraph down; they now follow the article, where a
+              reader who finished the piece can actually use them. */}
+          {article.tags.length > 0 && <div className="article-tag-list" aria-label="文章標籤">
+            {article.tags.map(tag => (
+              <Link
+                key={tag}
+                href={`/tags?tag=${encodeURIComponent(tag)}`}
+                className="article-tag-link"
+              >
+                <BilingualText zh={`#${tag}`} en={`#${tagToEnglish(tag)}`} />
+              </Link>
+            ))}
+          </div>}
 
           {article.sources.length > 0 && (
             <aside className="bg-[#121520]/40 border-l-4 border-cyan-400 p-5 sm:p-6 rounded-r-xl space-y-3">
@@ -115,10 +140,12 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
           <div className="pt-2 sm:pt-6 flex flex-col sm:flex-row gap-3 sm:justify-between">
             <Link href="/" className="inline-flex justify-center items-center gap-2 px-5 py-3 rounded-xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 font-semibold hover:bg-cyan-500/20 transition-all">
-              <BilingualText zh="← 返回星際首頁" en="← RETURN TO HOME TERMINAL" />
+              <span aria-hidden="true">←</span>
+              <BilingualText zh="返回星際首頁" en="RETURN TO HOME TERMINAL" />
             </Link>
             <Link href="/tags" className="inline-flex justify-center items-center gap-2 px-5 py-3 rounded-xl border border-white/10 text-gray-300 hover:border-cyan-400/50 hover:text-cyan-300 transition-all">
-              <BilingualText zh="探索更多標籤 →" en="EXPLORE MORE TAGS →" />
+              <BilingualText zh="探索更多標籤" en="EXPLORE MORE TAGS" />
+              <span aria-hidden="true">→</span>
             </Link>
           </div>
         </div>
