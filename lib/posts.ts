@@ -124,7 +124,7 @@ export function stripTrailingSourceSection(content: string): string {
   // generated articles do not render the same citations twice.
   return String(content || '')
     .replace(
-      /\n{0,2}#{1,6}\s*(?:來源整理|資料來源(?:與引用)?|sources?(?:\s*(?:&|and)\s*citations?)?|citations?)\s*\n[\s\S]*$/i,
+      /\n{0,2}#{1,6}\s*(?:來源整理|來源彙整|資料來源(?:與引用)?|sources?(?:\s*(?:&|and)\s*citations?)?|sources?\s+compilation|citations?)\s*\n[\s\S]*$/i,
       '',
     )
     .trim();
