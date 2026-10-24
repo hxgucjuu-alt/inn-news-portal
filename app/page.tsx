@@ -29,6 +29,32 @@ export default async function HomePage() {
   const secondaryHeadlines = latestArticles.slice(1, 4);
   const restOfLatest = latestArticles.slice(4);
 
+  // Bottom index, driven by real data instead of four hard-coded English
+  // labels. The old list only matched breaking / deep-dive / opinion /
+  // review, so most columns rendered empty and looked unfinished. Keep the
+  // same four-column shape, but fill it with the four largest categories
+  // actually present, with a Chinese label and a count.
+  const categoryLabels: Record<string, string> = {
+    breaking: '即時快訊',
+    'deep-dive': '深度報導',
+    opinion: '社論專欄',
+    review: '科技前沿',
+  };
+  const categorySections = (() => {
+    const byCategory = new Map<string, { label: string; articles: typeof articles }>();
+    prioritizedArticles.forEach(article => {
+      const entry = byCategory.get(article.category) || {
+        label: categoryLabels[article.category] || article.category,
+        articles: [],
+      };
+      entry.articles.push(article);
+      byCategory.set(article.category, entry);
+    });
+    return Array.from(byCategory.values())
+      .sort((a, b) => b.articles.length - a.articles.length)
+      .slice(0, 4);
+  })();
+
   return (
     <div className="site-shell home-shell min-h-screen bg-[#0a0b0f] text-white selection:bg-cyan-500 selection:text-black font-sans">
       <Navbar />
@@ -62,17 +88,9 @@ export default async function HomePage() {
       </section>
 
       <main className="content-shell max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12 space-y-12 lg:space-y-20">
-        <section className="home-greeting-row" aria-label="INN 時段問候">
-          <TimeGreeting />
-        </section>
-
-        <section className="home-social-links home-social-links--classic" aria-label="INN 官方社群連結">
-          <span><BilingualText zh="追蹤 INN 官方頻道" en="FOLLOW INN OFFICIAL CHANNELS" /></span>
-          <a href="https://www.instagram.com/inn.crestylon/" target="_blank" rel="noopener noreferrer">Instagram <i aria-hidden="true">↗</i></a>
-          <a href="https://www.threads.com/@inn.crestylon?hl=zh-tw" target="_blank" rel="noopener noreferrer">Threads <i aria-hidden="true">↗</i></a>
-        </section>
-
-        {/* Prime Section */}
+        {/* Prime Section first: on a news site the headline, not the
+            greeting, should own the first screen. The greeting and social
+            links are kept, just moved below the prime section. */}
         <section className="primary-layout grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
           {primeHeadline && (
             <div className="lg:col-span-8 group">
@@ -122,6 +140,16 @@ export default async function HomePage() {
           </div>
         </section>
 
+        <section className="home-greeting-row" aria-label="INN 時段問候">
+          <TimeGreeting />
+        </section>
+
+        <section className="home-social-links home-social-links--classic" aria-label="INN 官方社群連結">
+          <span><BilingualText zh="追蹤 INN 官方頻道" en="FOLLOW INN OFFICIAL CHANNELS" /></span>
+          <a href="https://www.instagram.com/inn.crestylon/" target="_blank" rel="noopener noreferrer">Instagram <i aria-hidden="true">↗</i></a>
+          <a href="https://www.threads.com/@inn.crestylon?hl=zh-tw" target="_blank" rel="noopener noreferrer">Threads <i aria-hidden="true">↗</i></a>
+        </section>
+
         {/* Global Stream Section */}
         <section className="latest-section space-y-8 lg:space-y-12">
           <div className="flex items-end justify-between border-b-2 border-cyan-500/20 pb-6">
@@ -145,12 +173,22 @@ export default async function HomePage() {
 
         {/* Categories Section */}
         <section className="bg-cyan-950/10 border border-cyan-500/20 rounded-3xl p-8 lg:p-12">
+          <div className="mb-8 flex items-baseline justify-between border-b border-cyan-500/20 pb-4">
+            <h2 className="font-orbitron font-bold text-sm tracking-[0.2em] text-cyan-400 uppercase">
+              <BilingualText zh="分類索引" en="CATEGORY INDEX" />
+            </h2>
+            <Link href="/tags" className="text-xs font-bold text-cyan-400 hover:text-white transition-colors uppercase tracking-widest">
+              <BilingualText zh="全部主題" en="ALL TOPICS" /> <span aria-hidden="true">→</span>
+            </Link>
+          </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {['breaking', 'deep-dive', 'opinion', 'review'].map((cat) => (
-              <div key={cat} className="space-y-4">
-                <h3 className="text-[10px] font-black font-orbitron text-cyan-500 tracking-[0.3em] uppercase opacity-50">{cat}</h3>
+            {categorySections.map((section) => (
+              <div key={section.label} className="space-y-4">
+                <h3 className="text-xs font-black font-orbitron text-cyan-400 tracking-[0.2em]">
+                  {section.label} <span className="text-gray-400 font-sans tracking-normal">· {section.articles.length} 篇</span>
+                </h3>
                 <div className="space-y-2">
-                  {prioritizedArticles.filter(a => a.category === cat).slice(0, 3).map((a, i) => (
+                  {section.articles.slice(0, 3).map((a, i) => (
                     <Link key={i} href={`/articles/${a.slug}`} className="block text-sm text-gray-400 hover:text-white transition-colors truncate">
                       • {a.title}
                     </Link>
