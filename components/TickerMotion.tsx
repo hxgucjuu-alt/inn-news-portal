@@ -18,6 +18,16 @@ export default function TickerMotion({ children, className }: { children: ReactN
     let running = false;
     const pixelsPerSecond = 22;
 
+    // Measure the loop width outside the frame loop: reading scrollWidth inside
+    // tick() would force a layout reflow on every animation frame.
+    let loopWidth = 0;
+    const measure = () => {
+      loopWidth = track.scrollWidth / 2;
+    };
+    measure();
+    const resizeObserver = 'ResizeObserver' in window ? new ResizeObserver(measure) : null;
+    resizeObserver?.observe(track);
+
     const stop = () => {
       running = false;
       if (frame) window.cancelAnimationFrame(frame);
@@ -32,7 +42,6 @@ export default function TickerMotion({ children, className }: { children: ReactN
       lastTime = time;
       offset -= (pixelsPerSecond * elapsed) / 1000;
 
-      const loopWidth = track.scrollWidth / 2;
       if (loopWidth > 0 && -offset >= loopWidth) offset += loopWidth;
       track.style.transform = `translate3d(${offset}px, 0, 0)`;
       frame = window.requestAnimationFrame(tick);
@@ -59,6 +68,7 @@ export default function TickerMotion({ children, className }: { children: ReactN
 
     return () => {
       stop();
+      resizeObserver?.disconnect();
       observer?.disconnect();
       track.style.removeProperty('transform');
       track.style.removeProperty('animation');
