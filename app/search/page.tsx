@@ -26,7 +26,7 @@ function SearchContent() {
 
     const controller = new AbortController();
     setLoading(true);
-    fetch('/api/articles', { signal: controller.signal })
+    fetch('/api/articles-full', { signal: controller.signal })
       .then(res => res.json())
       .then(data => {
         if (controller.signal.aborted) return;
