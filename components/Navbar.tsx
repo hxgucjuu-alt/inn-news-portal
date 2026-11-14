@@ -4,11 +4,15 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { LanguageToggle, useLanguage } from '@/components/BilingualText';
 
-const navItems = [
+type NavItem = { href: string; zh: string; en: string; prefetch?: boolean };
+
+// /map-test and /timeline carry megabyte-sized route payloads; prefetching them
+// from the global nav made every page silently download ~10 MB in the background.
+const navItems: NavItem[] = [
   { href: '/', zh: '新聞首頁', en: 'NEWS HOME' },
-  { href: '/map-test', zh: '地圖測試', en: 'MAP LAB' },
+  { href: '/map-test', zh: '地圖測試', en: 'MAP LAB', prefetch: false },
   { href: '/tags', zh: '主題索引', en: 'TOPIC INDEX' },
-  { href: '/timeline', zh: '時事時間線', en: 'CURRENT TIMELINE' },
+  { href: '/timeline', zh: '時事時間線', en: 'CURRENT TIMELINE', prefetch: false },
   { href: '/opinion', zh: '社論與評論', en: 'OPINION' },
   { href: '/about', zh: '關於本網', en: 'ABOUT' },
 ];
@@ -68,7 +72,7 @@ export default function Navbar() {
 
         <nav className="nav-desktop" aria-label="主選單">
           {navItems.map(item => (
-            <Link key={item.href} href={item.href} className="nav-link">
+            <Link key={item.href} href={item.href} prefetch={item.prefetch} className="nav-link">
               {language === 'zh' ? item.zh : item.en}
             </Link>
           ))}
@@ -77,7 +81,7 @@ export default function Navbar() {
         {menuOpen && (
           <nav id="mobile-navigation" className="nav-mobile" aria-label="手機主選單">
             {navItems.map(item => (
-              <Link key={item.href} href={item.href} onClick={() => setMenuOpen(false)}>
+              <Link key={item.href} href={item.href} prefetch={item.prefetch} onClick={() => setMenuOpen(false)}>
                 {language === 'zh' ? item.zh : item.en}
               </Link>
             ))}
