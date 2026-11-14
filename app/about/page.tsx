@@ -97,7 +97,7 @@ export default function AboutPage() {
           </div>
           <div className="about-cta-links">
             <Link href="/" className="portal-card about-cta-card"><BilingualText zh="返回新聞終端" en="RETURN TO NEWS TERMINAL" /> <span>→</span></Link>
-            <Link href="/timeline" className="portal-card about-cta-card"><BilingualText zh="查看時間線歸檔" en="OPEN TIMELINE ARCHIVE" /> <span>→</span></Link>
+            <Link href="/timeline" prefetch={false} className="portal-card about-cta-card"><BilingualText zh="查看時間線歸檔" en="OPEN TIMELINE ARCHIVE" /> <span>→</span></Link>
           </div>
         </section>
 
