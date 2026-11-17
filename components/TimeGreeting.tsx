@@ -30,7 +30,7 @@ function millisecondsUntilNextHour(date: Date) {
   return Math.max(1000, (60 - date.getMinutes()) * 60_000 - date.getSeconds() * 1000 - date.getMilliseconds());
 }
 
-export default function TimeGreeting() {
+export default function TimeGreeting({ variant = 'hero' }: { variant?: 'hero' | 'bar' }) {
   const [greeting, setGreeting] = useState<Greeting>(DEFAULT_GREETING);
   const [dailyGreeting, setDailyGreeting] = useState(DEFAULT_GREETING);
 
@@ -53,6 +53,15 @@ export default function TimeGreeting() {
     };
   }, []);
 
+  if (variant === 'bar') {
+    return (
+      <div className="nav-greeting" aria-live="polite">
+        <span className="home-greeting-label">INN // TIME SIGNAL</span>
+        <strong className={`home-greeting-time nav-greeting-word ${greeting.zh === '晚安' ? 'home-greeting-time--evening' : ''}`}><BilingualText zh={greeting.zh} en={greeting.en} /></strong>
+        <span className="nav-greeting-quote"><BilingualText zh={dailyGreeting.zh} en={dailyGreeting.en} /></span>
+      </div>
+    );
+  }
   return (
     <div className="home-greeting" aria-live="polite">
       <span className="home-greeting-label">INN // TIME SIGNAL</span>
