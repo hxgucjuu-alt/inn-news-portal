@@ -7291,3 +7291,21 @@ html[data-language='en'] .nav-greeting .bilingual-pair > .bilingual-language-zh 
     font-size: 0.88rem;
   }
 }
+
+/* ------------------------------------------------------------------
+   Prime headline centering (2026-11-17): centre the content block in
+   the panel (it was capped at 58rem and left-aligned, leaving a dead
+   strip on the right) and move its dark backdrop onto the panel as a
+   soft full-panel glow, so the content box edge no longer reads as a
+   hard dividing line.
+   ------------------------------------------------------------------ */
+.prime-headline-content {
+  margin-inline: auto;
+  background-image: none !important;
+}
+
+.prime-headline-panel {
+  background-image:
+    radial-gradient(95% 95% at 50% 64%, rgba(10, 11, 15, 0.88) 30%, rgba(10, 11, 15, 0.45) 62%, rgba(10, 11, 15, 0) 82%),
+    linear-gradient(to bottom right, rgba(22, 78, 99, 0.2), rgba(88, 28, 135, 0.2));
+}
