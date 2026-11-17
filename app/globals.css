@@ -7223,3 +7223,71 @@ body {
     flex-basis: 1.95rem;
   }
 }
+
+
+/* ------------------------------------------------------------------
+   Nav greeting bar (2026-11-17): the homepage time greeting is fused
+   into the site header as a slim strip under the nav frame, replacing
+   the standalone centered greeting section on the home page.
+   ------------------------------------------------------------------ */
+.nav-greeting-bar {
+  border-top: 1px solid rgba(34, 211, 238, 0.14);
+  background: rgba(3, 10, 20, 0.42);
+}
+
+.nav-greeting {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.9rem;
+  width: min(100%, 96rem);
+  margin-inline: auto;
+  padding: 0.5rem 1rem 0.6rem;
+  min-width: 0;
+}
+
+.nav-greeting-word {
+  font-family: var(--font-orbitron), ui-sans-serif, system-ui, sans-serif;
+  color: rgba(226, 252, 255, 0.95);
+  font-size: 1.02rem;
+  letter-spacing: 0.07em;
+  white-space: nowrap;
+}
+
+.nav-greeting .bilingual-pair {
+  flex-direction: row !important;
+  align-items: baseline;
+  gap: 0.6rem;
+}
+
+.nav-greeting-quote {
+  min-width: 0;
+  color: rgba(186, 230, 253, 0.78);
+  font-family: 'Source Serif 4', 'Noto Serif TC', 'PingFang TC', 'Microsoft JhengHei', Georgia, serif;
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+.nav-greeting-quote .bilingual-pair {
+  flex-wrap: wrap;
+  row-gap: 0.05rem;
+}
+
+/* In the bar's row layout the secondary language keeps its divider
+   border but must not keep the column layout's top margin. */
+html[data-language='zh'] .nav-greeting .bilingual-pair > .bilingual-language-en,
+html[data-language='en'] .nav-greeting .bilingual-pair > .bilingual-language-zh {
+  margin-top: 0 !important;
+}
+
+@media (max-width: 760px) {
+  .nav-greeting {
+    gap: 0.25rem 0.7rem;
+    padding: 0.45rem 1rem 0.55rem;
+  }
+
+  .nav-greeting-quote {
+    flex-basis: 100%;
+    font-size: 0.88rem;
+  }
+}
