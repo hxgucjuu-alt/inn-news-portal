@@ -79,8 +79,8 @@ export default async function HomePage() {
               <Link href={`/articles/${primeHeadline.slug}`} className="block">
                 <div className="prime-headline-panel relative flex aspect-[16/9] min-h-[22rem] flex-col justify-end overflow-hidden rounded-2xl border border-cyan-500/20 bg-gradient-to-br from-cyan-900/20 to-purple-900/20 p-5 sm:min-h-[28rem] sm:p-8 xl:p-10 group-hover:border-cyan-400/50 transition-all duration-500">
                   <div className="pointer-events-none absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20"></div>
-                  <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-                    <div className="text-cyan-500/10 font-black text-9xl select-none">INN</div>
+                  <div className="pointer-events-none absolute inset-0 flex items-start justify-end p-5 sm:p-8 xl:p-10">
+                    <div className="text-cyan-500/10 font-black text-7xl sm:text-8xl select-none">INN</div>
                   </div>
                   <div className="prime-headline-content relative z-10 min-w-0 max-w-full bg-gradient-to-t from-[#0a0b0f] via-[#0a0b0f]/88 to-transparent pt-12">
                     <div className="mb-3 flex flex-wrap items-center gap-2.5 sm:gap-3">
