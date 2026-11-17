@@ -7309,3 +7309,56 @@ html[data-language='en'] .nav-greeting .bilingual-pair > .bilingual-language-zh 
     radial-gradient(95% 95% at 50% 64%, rgba(10, 11, 15, 0.88) 30%, rgba(10, 11, 15, 0.45) 62%, rgba(10, 11, 15, 0) 82%),
     linear-gradient(to bottom right, rgba(22, 78, 99, 0.2), rgba(88, 28, 135, 0.2));
 }
+
+/* ------------------------------------------------------------------
+   Nav greeting slot (2026-11-17): the greeting moves into the header
+   frame's top-right space, stacked above the desktop nav links,
+   instead of a separate bar under the frame.
+   ------------------------------------------------------------------ */
+.nav-side {
+  grid-area: nav;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 0.3rem;
+  min-width: 0;
+}
+
+.nav-greeting-slot .nav-greeting {
+  justify-content: flex-end;
+  width: auto;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-greeting-slot .nav-greeting-quote {
+  flex-basis: 100%;
+  text-align: right;
+}
+
+.nav-greeting-slot .nav-greeting-quote .bilingual-pair {
+  justify-content: flex-end;
+}
+
+@media (max-width: 760px) {
+  /* The mobile frame template has no 'nav' area; take a full-width
+     implicit row instead so the greeting stacks inside the header. */
+  .nav-side {
+    grid-area: auto;
+    grid-column: 1 / -1;
+    align-items: stretch;
+  }
+
+  .nav-greeting-slot .nav-greeting {
+    justify-content: flex-start;
+  }
+
+  .nav-greeting-slot .nav-greeting-quote {
+    text-align: left;
+  }
+
+  .nav-greeting-slot .nav-greeting-quote .bilingual-pair {
+    justify-content: flex-start;
+  }
+}
