@@ -56,7 +56,6 @@ export default function TimeGreeting({ variant = 'hero' }: { variant?: 'hero' | 
   if (variant === 'bar') {
     return (
       <div className="nav-greeting" aria-live="polite">
-        <span className="home-greeting-label">INN // TIME SIGNAL</span>
         <strong className={`home-greeting-time nav-greeting-word ${greeting.zh === '晚安' ? 'home-greeting-time--evening' : ''}`}><BilingualText zh={greeting.zh} en={greeting.en} /></strong>
         <span className="nav-greeting-quote"><BilingualText zh={dailyGreeting.zh} en={dailyGreeting.en} /></span>
       </div>
