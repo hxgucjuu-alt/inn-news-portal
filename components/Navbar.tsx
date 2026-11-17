@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, type ReactNode } from 'react';
 import { LanguageToggle, useLanguage } from '@/components/BilingualText';
 
 type NavItem = { href: string; zh: string; en: string; prefetch?: boolean };
@@ -17,7 +17,7 @@ const navItems: NavItem[] = [
   { href: '/about', zh: '關於本網', en: 'ABOUT' },
 ];
 
-export default function Navbar() {
+export default function Navbar({ greeting }: { greeting?: ReactNode }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [menuOpen, setMenuOpen] = useState(false);
   const { language } = useLanguage();
@@ -88,6 +88,7 @@ export default function Navbar() {
           </nav>
         )}
       </div>
+      {greeting ? <div className="nav-greeting-bar">{greeting}</div> : null}
     </header>
   );
 }
