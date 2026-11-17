@@ -69,14 +69,16 @@ export default function Navbar({ greeting }: { greeting?: ReactNode }) {
             {menuOpen ? (language === 'zh' ? '關閉' : 'CLOSE') : (language === 'zh' ? '選單' : 'MENU')}
           </button>
         </div>
-
-        <nav className="nav-desktop" aria-label="主選單">
-          {navItems.map(item => (
-            <Link key={item.href} href={item.href} prefetch={item.prefetch} className="nav-link">
-              {language === 'zh' ? item.zh : item.en}
-            </Link>
-          ))}
-        </nav>
+        <div className="nav-side">
+          {greeting ? <div className="nav-greeting-slot">{greeting}</div> : null}
+          <nav className="nav-desktop" aria-label="主選單">
+            {navItems.map(item => (
+              <Link key={item.href} href={item.href} prefetch={item.prefetch} className="nav-link">
+                {language === 'zh' ? item.zh : item.en}
+              </Link>
+            ))}
+          </nav>
+        </div>
 
         {menuOpen && (
           <nav id="mobile-navigation" className="nav-mobile" aria-label="手機主選單">
@@ -88,7 +90,6 @@ export default function Navbar({ greeting }: { greeting?: ReactNode }) {
           </nav>
         )}
       </div>
-      {greeting ? <div className="nav-greeting-bar">{greeting}</div> : null}
     </header>
   );
 }
