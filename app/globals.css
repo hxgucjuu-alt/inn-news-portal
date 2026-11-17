@@ -7325,8 +7325,12 @@ html[data-language='en'] .nav-greeting .bilingual-pair > .bilingual-language-zh 
   min-width: 0;
 }
 
+.nav-greeting-slot {
+align-self: flex-start;
+}
+
 .nav-greeting-slot .nav-greeting {
-  justify-content: flex-end;
+  justify-content: flex-start;
   width: auto;
   margin: 0;
   padding: 0;
@@ -7334,11 +7338,13 @@ html[data-language='en'] .nav-greeting .bilingual-pair > .bilingual-language-zh 
 
 .nav-greeting-slot .nav-greeting-quote {
   flex-basis: 100%;
-  text-align: right;
+  text-align: left;
 }
 
 .nav-greeting-slot .nav-greeting-quote .bilingual-pair {
-  justify-content: flex-end;
+flex-direction: column !important;
+align-items: flex-start;
+justify-content: flex-start;
 }
 
 @media (max-width: 760px) {
@@ -7361,4 +7367,36 @@ html[data-language='en'] .nav-greeting .bilingual-pair > .bilingual-language-zh 
   .nav-greeting-slot .nav-greeting-quote .bilingual-pair {
     justify-content: flex-start;
   }
+}
+
+/* Two-row header (<=1439px): greeting and nav links share one band,
+   bottoms aligned — links level with the greeting's last line. */
+@media (max-width: 1439px) {
+  .nav-side {
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .nav-greeting-slot {
+    min-width: 0;
+    padding-right: 0.5rem;
+  }
+
+  .nav-side .nav-desktop {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    row-gap: 0.3rem;
+  }
+}
+
+/* Header greeting: smaller type so the three lines breathe. */
+.nav-greeting-slot .nav-greeting-word {
+  font-size: 0.88rem;
+}
+
+.nav-greeting-slot .nav-greeting-quote {
+  font-size: 0.8rem;
+  line-height: 1.55;
 }
