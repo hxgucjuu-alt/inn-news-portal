@@ -6420,7 +6420,7 @@ html[data-language='en'] .ticker-bilingual > .bilingual-language-zh {
 }
 
 .home-shell .prime-headline-excerpt {
-  max-width: 68ch;
+  max-width: 100%;
   font-size: clamp(0.94rem, 1.35vw, 1.18rem);
   line-height: 1.72;
 }
